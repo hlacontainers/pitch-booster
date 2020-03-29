@@ -1,5 +1,10 @@
 #!/bin/sh
 
+#
+# Copyright 2020 Tom van den Berg (TNO, The Netherlands).
+# SPDX-License-Identifier: Apache-2.0
+#
+
 # Start script for Booster
 
 getProperty() {
