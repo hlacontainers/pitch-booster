@@ -1,0 +1,62 @@
+version: '3'
+
+services:
+################
+# PARENT BOOSTER
+################
+ parentbooster:
+  image: ${REPOSITORY}pitch-booster:${BOOSTER_VERSION}
+  mac_address: ${BOOSTER_MAC_ADDRESS}
+  command: -v
+  environment:
+  - PARENTID=100
+  - PARENTNAME=Parent
+  - CHILDID_1=101
+  - CHILDNAME_1=Child101
+  networks:
+  - network0
+  ports:
+  - "8686:8686"
+  - "8623:8623"
+  volumes:
+  - booster_license_volume:/usr/local/PitchBooster/jre/.systemPrefs/se/pitch/booster/config:nocopy
+  depends_on:
+  - booster_license
+
+################
+# CHILD BOOSTER
+################
+ childbooster:
+  image: ${REPOSITORY}pitch-booster:${BOOSTER_VERSION}
+  mac_address: ${BOOSTER_MAC_ADDRESS}
+  command: -v
+  environment:
+  - ISCHILD=1
+  - CHILDID=101
+  - CHILDNAME=Child101
+  - PARENTID=100
+  - PARENTNAME=Parent
+  - PARENTADDRESS=${HOSTADDRESS}:8686
+  networks:
+  - network1
+  volumes:
+  - booster_license_volume:/usr/local/PitchBooster/jre/.systemPrefs/se/pitch/booster/config:nocopy
+  depends_on:
+  - booster_license
+
+#########################
+# License
+#########################
+ booster_license:
+  image: ${BOOSTER_LICENSE_IMAGE}
+  volumes:
+  - booster_license_volume:/data
+
+networks:
+ network0:
+  driver: bridge
+ network1:
+  driver: bridge
+
+volumes:
+ booster_license_volume:

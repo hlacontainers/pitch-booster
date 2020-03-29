@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+ booster:
+  build:
+   context: context
+   dockerfile: Dockerfile
+   args:
+   - PITCH_BOOSTER_VERSION=${PITCH_BOOSTER_VERSION}
+  image: ${REPOSITORY}pitch-booster:${PITCH_BOOSTER_VERSION}

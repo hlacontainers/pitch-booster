@@ -1,0 +1,101 @@
+version: '3'
+
+##################################################################
+# Example compostition with two disjoint enclaves each with
+# federates. The enclaves are connected by a pair of boosters.
+##################################################################
+
+services:
+####################
+# NETWORK ENCLAVE 0:
+# containes: CRC, Parent Booster, federate0
+####################
+ xserver:
+  image: ${REPOSITORY}xserver
+  ports:
+  - "8080:8080"
+  networks:
+  - network0
+
+ crc:
+  image: ${REPOSITORY}pitch-crc:${CRC_VERSION}
+  mac_address: ${CRC_MAC_ADDRESS}
+  environment:
+  - CRC_NICKNAME=XXX
+  - CRC_BOOSTERADDRESS=parentbooster:8688
+  - DISPLAY=xserver:0
+  networks:
+  - network0
+
+ parentbooster:
+  image: ${REPOSITORY}pitch-booster:${BOOSTER_VERSION}
+  mac_address: ${BOOSTER_MAC_ADDRESS}
+  environment:
+  - PARENTID=100
+  - PARENTNAME=Parent
+  - CHILDID_1=101
+  - CHILDNAME_1=Child101  
+  networks:
+  - network0
+  ports:
+  - "8686:8686"
+  - "8623:8623"
+
+ federate0:
+  image: ${REPOSITORY}start:pitch-debian
+  volumes:
+  - ${PITCH_RTI_HOME}:/usr/local/lrc/code
+  environment:
+  - DISPLAY=xserver:0
+  - LRC_MASTERADDRESS=parentbooster:8688
+  - PITCH_CRCADDRESS=XXX@parentbooster:8688
+  networks:
+  - network0
+
+####################
+# NETWORK ENCLAVE 1
+# containes: Child Booster, federate1, federate2
+####################
+ childbooster1:
+  image: ${REPOSITORY}pitch-booster:${BOOSTER_VERSION}
+  mac_address: ${BOOSTER_MAC_ADDRESS}
+  environment:
+  - ISCHILD=1
+  - CHILDID=101
+  - CHILDNAME=Child101
+  - PARENTID=100
+  - PARENTNAME=Parent
+  - PARENTADDRESS=${HOSTADDRESS}:8686
+  networks:
+  - network1
+  ports:
+  - "8624:8623"
+  
+ federate1:
+  image: ${REPOSITORY}start:pitch-debian
+  volumes:
+  - ${PITCH_RTI_HOME}:/usr/local/lrc/code
+  environment:
+  - LRC_MASTERADDRESS=childbooster1:8688
+  - PITCH_CRCADDRESS=XXX@childbooster1:8688
+  networks:
+  - network1
+
+ federate2:
+  image: ${REPOSITORY}start:pitch-debian
+  volumes:
+  - ${PITCH_RTI_HOME}:/usr/local/lrc/code
+  environment:
+  - LRC_MASTERADDRESS=childbooster1:8688
+  - PITCH_CRCADDRESS=XXX@childbooster1:8688
+  networks:
+  - network1
+
+#########################
+# Isolated networks
+#########################
+networks:
+ network0:
+  driver: bridge
+ network1:
+  driver: bridge

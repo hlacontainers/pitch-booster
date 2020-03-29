@@ -1,0 +1,4 @@
+#Config for booster
+ID=174
+NAME=NETN.1
+ADDRESS=myhostaddess:443
