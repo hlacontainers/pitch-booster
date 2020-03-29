@@ -6,7 +6,7 @@ This image is the containerized version of Pitch Booster, a product to support t
 
 Depending on the mode different environment variables should be set. In parent mode it is possible to specify the child booster nodes that may potentially connect to the parent booster node. It is also possible to specify additional peer (parent) booster nodes to which the parent booster node has to connect. In child mode the parent booster node must be specified.
 
-In order to run Pitch Booster a license container must be used. The license container image needs to be created only once.
+This repository contains the files and instructions to build and run a Docker container image for Pitch Booster. **This repository does not include any Pitch files**. Pitch Booster and license keys must be acquired from the vendor. For more information about Pitch Booster, see http://pitchtechnologies.com.
 
 For the instructions to build a skeleton or a complete Pitch Booster container image see [BUILDME](BUILDME.md).
 
