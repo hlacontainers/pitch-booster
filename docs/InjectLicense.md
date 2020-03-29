@@ -1,7 +1,7 @@
-Inject a License into the Pitch CRC Image
+Inject a License into the Pitch Booster Image
 =====================================
 
-By injecting the license key into the image itself, the license becomes part of the Pitch CRC image. There is no need to refer to a license server or use a license container.
+By injecting the license key into the image itself, the license becomes part of the Pitch Booster image. There is no need to refer to a license server or use a license container.
 
 To do this, perform the following steps.
 
