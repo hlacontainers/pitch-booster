@@ -8,7 +8,7 @@ version: '3'
 services:
 ####################
 # NETWORK ENCLAVE 0:
-# containes: CRC, Parent Booster, federate0
+# contains: CRC, Parent Booster, federate0
 ####################
  xserver:
   image: ${REPOSITORY}xserver
@@ -54,7 +54,7 @@ services:
 
 ####################
 # NETWORK ENCLAVE 1
-# containes: Child Booster, federate1, federate2
+# contains: Child Booster, federate1, federate2
 ####################
  childbooster1:
   image: ${REPOSITORY}pitch-booster:${BOOSTER_VERSION}
