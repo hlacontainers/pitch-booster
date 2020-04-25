@@ -1,3 +1,5 @@
+![Build Status](https://img.shields.io/docker/cloud/build/hlacontainers/pitch-booster)
+
 # Pitch Booster image
 This image is the containerized version of Pitch Booster, a product to support the creation of a virtual simulation network across different sites. The Pitch Booster container can be started in two modes:
 
