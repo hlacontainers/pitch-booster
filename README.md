@@ -39,6 +39,8 @@ Ports:
 | -e     | `EXTERN_LISTENPORT`  | `8686`                         | Listen port for remote boosters on the external side of this booster. | N        |
 | -e     | `INTERN_LISTENPORT`  | `8688`                         | Listen port for applications on the internal side of this booster. | N        |
 | -e     | `PROPDIR`            | `./propdir`                    | Name of property directory containing  booster profiles.     | N        |
+| -e     | `BOOSTER_LICENSE`    | not set                        | A booster license key                                        | N        |
+| -e     | `BOOSTER_MACADDRESS` | not set                        | The MAC address the license key is assigned to. Note that using this variable requires that the container has `NET_ADMIN` capabiity | N |
 
 ### Parent mode
 
@@ -81,9 +83,19 @@ The address is only required for a parent booster.
 
 Pitch Booster requires MAC address based license to run. This requires that the container is started with a specific MAC address and that the license key is either mounted into the container or already present (injected) inside the container image.
 
-With the MAC address based license the Booster container must be started with the `--mac-address` option, providing a MAC address value that corresponds with the license key. Not all overlay networks support a user defined MAC address. Overlay networks under Docker generally support user defined MAC addresses, but overlay networks under Kubernetes do not. An experimental workaround to this limitation is described in [Run Booster with Docker In Docker](docs/DockerInDocker.md).
+With the MAC address based license the Booster container must be started with the `--mac-address` option, providing a MAC address value that corresponds with the license key. Not all overlay networks support a user defined MAC address. Overlay networks under Docker generally support user defined MAC addresses, but overlay networks under Kubernetes do not. If the container is run in Kubernetes, a workaround based on environment variables exists. An earlier, experimental workaround to this limitation is described in [Run Booster with Docker In Docker](docs/DockerInDocker.md).
 
 The following applies to overlay networks that support a user defined MAC address.
+
+### Mount license key through environment variables
+
+The Pitch Booster image takes the environment variables `BOOSTER_LICENSE` and `BOOSTER_MACADDRESS` as inputs. These can be used to mount a license into the container at run-time.
+
+If the `BOOSTER_MACADDRESS` environment variable is set, the Booster container will create a virtual network interface with the given MAC address. This is useful for containers running in Kubernetes environments, where the MAC address of the main network interface can not be set explicitly. Note that the container requires the `NET_ADMIN` capability in order for this to work.
+
+The `BOOSTER_LICENSE` environment variable can be used to insert a license string into the Booster container. The container will then attempt to activate this license. If the license is bound to a particular MAC addres, this MAC address should be added to the container through either the `--mac-address` option of Docker, or by setting the `BOOSTER_MACADDRESS` environment variable of the container.
+
+Once the container has initialised a virtual network interface and/or attempted to activate a license key, it will continue to run normally.
 
 ### Mount license key
 

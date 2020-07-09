@@ -31,7 +31,7 @@ RUN mkdir -p ${BOOSTER_HOME}
 #########################
 FROM ubuntu:16.04
 
-RUN apt-get update && apt-get install -y net-tools dnsutils
+RUN apt-get update && apt-get install -y net-tools dnsutils iproute2
 
 # Set the BOOSTER_HOME
 ENV BOOSTER_HOME=/usr/local/PitchBooster
