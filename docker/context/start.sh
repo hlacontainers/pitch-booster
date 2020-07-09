@@ -78,7 +78,7 @@ if [ -n "$BOOSTER_MACADDRESS" ]; then
 	ip link set eth0.1 up
 fi
 
-if [ -n "$BOOSTER_LICENSE"]
+if [ -n "$BOOSTER_LICENSE"]; then
 	echo "BOOSTER: Run license activator with $BOOSTER_LICENSE"
 	/usr/local/PitchBooster/BoosterLicenseActivator $BOOSTER_LICENSE
 fi
