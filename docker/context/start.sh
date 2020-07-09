@@ -80,7 +80,7 @@ fi
 
 if [ -n "$BOOSTER_LICENSE" ]; then
 	echo "BOOSTER: Run license activator with $BOOSTER_LICENSE"
-	/usr/local/PitchBooster/BoosterLicenseActivator $BOOSTER_LICENSE
+	echo $BOOSTER_LICENSE | /usr/local/PitchBooster/BoosterLicenseActivator
 fi
 
 if [ -z "${ISCHILD}" ] || [ "${ISCHILD}" = "0" ]; then
