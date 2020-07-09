@@ -47,6 +47,9 @@ echo "CHILDID"=$CHILDID
 echo "CHILDNAME"=$CHILDNAME
 echo "CHILDPROFILE"=$CHILDPROFILE
 
+echo "BOOSTER_MACADDRESS"=$BOOSTER_MACADDRESS
+echo "BOOSTER_LICENSE"=$BOOSTER_LICENSE
+
 # A POSIX variable
 OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
@@ -67,6 +70,17 @@ if [ "$license" != "" ]; then
 	echo "Booster: run license activator with '$license'"
 	echo $license | /usr/local/PitchBooster/BoosterLicenseActivator
 	exit
+fi
+
+if [ -n "$BOOSTER_MACADDRESS" ]; then
+	echo "BOOSTER: Set MAC address to $BOOSTER_MACADDRESS"
+	ip link add link eth0 address $BOOSTER_MACADDRESS eth0.1 type macvlan
+	ip link set eth0.1 up
+fi
+
+if [ -n "$BOOSTER_LICENSE"]
+	echo "BOOSTER: Run license activator with $BOOSTER_LICENSE"
+	/usr/local/PitchBooster/BoosterLicenseActivator $BOOSTER_LICENSE
 fi
 
 if [ -z "${ISCHILD}" ] || [ "${ISCHILD}" = "0" ]; then
