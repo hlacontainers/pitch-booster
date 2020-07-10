@@ -53,7 +53,7 @@ echo "BOOSTER_LICENSE"=$BOOSTER_LICENSE
 # A POSIX variable
 OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
-while getopts "vl:" opt; do
+while getopts "vlmx:" opt; do
     case "$opt" in
 	v)	verbose=1
 		;;
