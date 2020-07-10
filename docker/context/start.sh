@@ -59,6 +59,10 @@ while getopts "vl:" opt; do
 		;;
 	l)	license=$OPTARG
 		;;
+	m)	BOOSTER_MACADDRESS=$OPTARG
+		;;
+	x)	BOOSTER_EXIT="1"
+		;;
 	esac
 done
 
@@ -319,6 +323,11 @@ if [ $verbose -eq 1 ]; then
 		cat $glbconfig
 		echo "=================="
 	fi
+fi
+
+if [ -n "$BOOSTER_EXIT" ]; then
+	echo "Booster: Exit without starting Booster"
+	exit
 fi
 
 # Start process

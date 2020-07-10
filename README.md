@@ -15,11 +15,15 @@ For the instructions to build a skeleton or a complete Pitch Booster container i
 
 ## Container synopsis
 
-`pitch-booster:<version> [-v] [-l <license key>]`
+`pitch-booster:<version> [-v] [-l <license key>] [-m <MAC address>] [-x]`
+
+`-m`: Create a virtual network interface with the given MAC address. Requires that the container has `NET_ADMIN` capability. Overrides the `BOOSTER_MACADDRESS` environment variable.
 
 `-v`: Provide verbose information.
 
 `-l`: Run license activator with the given key, and exit.
+
+`-x`: Exit after initialization, but before running the Booster. Overrides the `BOOSTER_EXIT` environment variable.
 
 Ports:
 
@@ -39,8 +43,9 @@ Ports:
 | -e     | `EXTERN_LISTENPORT`  | `8686`                         | Listen port for remote boosters on the external side of this booster. | N        |
 | -e     | `INTERN_LISTENPORT`  | `8688`                         | Listen port for applications on the internal side of this booster. | N        |
 | -e     | `PROPDIR`            | `./propdir`                    | Name of property directory containing  booster profiles.     | N        |
-| -e     | `BOOSTER_LICENSE`    | not set                        | A booster license key                                        | N        |
-| -e     | `BOOSTER_MACADDRESS` | not set                        | The MAC address the license key is assigned to. Note that using this variable requires that the container has `NET_ADMIN` capabiity | N |
+| -e     | `BOOSTER_LICENSE`    | not set                        | A booster license key.                                       | N        |
+| -e     | `BOOSTER_MACADDRESS` | not set                        | The MAC address the license key is assigned to. Note that using this variable requires that the container has `NET_ADMIN` capabiity. | N |
+| -e     | `BOOSTER_EXIT`       | not set                        | If set, Booster will exit once initialization has completed. | N        |
 
 ### Parent mode
 
