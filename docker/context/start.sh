@@ -70,16 +70,16 @@ done
 shift $((OPTIND-1))
 [ "$1" = "--" ] && shift
 
-if [ "$license" != "" ]; then
-	echo "Booster: run license activator with '$license'"
-	echo $license | /usr/local/PitchBooster/BoosterLicenseActivator
-	exit
-fi
-
 if [ -n "$BOOSTER_MACADDRESS" ]; then
 	echo "BOOSTER: Set MAC address to $BOOSTER_MACADDRESS"
 	ip link add link eth0 address $BOOSTER_MACADDRESS eth0.1 type macvlan
 	ip link set eth0.1 up
+fi
+
+if [ "$license" != "" ]; then
+	echo "Booster: run license activator with '$license'"
+	echo $license | /usr/local/PitchBooster/BoosterLicenseActivator
+	exit
 fi
 
 if [ -n "$BOOSTER_LICENSE" ]; then
