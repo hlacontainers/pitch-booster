@@ -15,23 +15,27 @@ For the instructions to build a skeleton or a complete Pitch Booster container i
 
 ## Container synopsis
 
-`pitch-booster:<version> [-v] [-l <license key>] [-m <MAC address>] [-x]`
+`pitch-booster:<version> [-m <MAC address>] [-l <license key>] [-v] [-x]`
 
-`-m`: Create a virtual network interface with the given MAC address. Requires that the container has `NET_ADMIN` capability. Overrides the `BOOSTER_MACADDRESS` environment variable.
 
-`-v`: Provide verbose information.
+## Container options
 
-`-l`: Run license activator with the given key, and exit.
 
-`-x`: Exit after initialization, but before running the Booster. Overrides the `BOOSTER_EXIT` environment variable.
+| Option | Description                                                  |
+| ------ | ------------------------------------------------------------ |
+| `-m`   | Create a virtual network interface with the given MAC address. Requires that the container has `NET_ADMIN` capability. Overrides the `BOOSTER_MACADDRESS` environment variable. |
+| `-l`   | Run license activator with the given key. Overrides `BOOSTER_LICENSE` environment variable. |
+| `-v`   | Provide verbose information.                                 |
+| `-x`   | Exit after initialization, but before running the Booster. Overrides the `BOOSTER_EXIT` environment variable. |
 
-Ports:
+## Ports
 
-`8686`: Listen port for remote boosters to connect.
 
-`8688`: Listen port for federate applications to connect.
-
-`8623`: Listen port for `ssh` access.
+| Port   | Description                                       |
+| ------ | ------------------------------------------------- |
+| `8686` | Listen port for remote boosters to connect.       |
+| `8688` | Listen port for federate applications to connect. |
+| `8623` | Listen port for `ssh` access.                     |
 
 ## Environment variables
 ### Any mode
@@ -44,7 +48,7 @@ Ports:
 | -e     | `INTERN_LISTENPORT`  | `8688`                         | Listen port for applications on the internal side of this booster. | N        |
 | -e     | `PROPDIR`            | `./propdir`                    | Name of property directory containing  booster profiles.     | N        |
 | -e     | `BOOSTER_LICENSE`    | not set                        | A booster license key.                                       | N        |
-| -e     | `BOOSTER_MACADDRESS` | not set                        | The MAC address the license key is assigned to. Note that using this variable requires that the container has `NET_ADMIN` capabiity. | N |
+| -e     | `BOOSTER_MACADDRESS` | not set                        | The MAC address the license key is assigned to. Note that using this variable requires that the container has `NET_ADMIN` capability. | N |
 | -e     | `BOOSTER_EXIT`       | not set                        | If set, Booster will exit once initialization has completed. | N        |
 
 ### Parent mode
@@ -88,19 +92,20 @@ The address is only required for a parent booster.
 
 Pitch Booster requires MAC address based license to run. This requires that the container is started with a specific MAC address and that the license key is either mounted into the container or already present (injected) inside the container image.
 
-With the MAC address based license the Booster container must be started with the `--mac-address` option, providing a MAC address value that corresponds with the license key. Not all overlay networks support a user defined MAC address. Overlay networks under Docker generally support user defined MAC addresses, but overlay networks under Kubernetes do not. If the container is run in Kubernetes, a workaround based on environment variables exists. An earlier, experimental workaround to this limitation is described in [Run Booster with Docker In Docker](docs/DockerInDocker.md).
+With the MAC address based license the container must have a network interface whose MAC address is associated with the license key. This can be achieved in two ways:
 
-The following applies to overlay networks that support a user defined MAC address.
+- start the container with the docker option `--mac-address`;
+- start the container with either the command line option `-m` or with the environment variable `BOOSTER_MACADDRESS`. This option requires that the container has the `NET_ADMIN` capability set.
 
-### Mount license key through environment variables
+With the latter option the Booster container will create a virtual network interface with the given MAC address. This is useful for containers running in Kubernetes environments, where the MAC address of the main network interface can not be set explicitly. Note that the container requires the `NET_ADMIN` capability in order for this to work.
 
-The Pitch Booster image takes the environment variables `BOOSTER_LICENSE` and `BOOSTER_MACADDRESS` as inputs. These can be used to mount a license into the container at run-time.
+There are several ways to provide the license key to the Booster container, explained next.
 
-If the `BOOSTER_MACADDRESS` environment variable is set, the Booster container will create a virtual network interface with the given MAC address. This is useful for containers running in Kubernetes environments, where the MAC address of the main network interface can not be set explicitly. Note that the container requires the `NET_ADMIN` capability in order for this to work.
+### Provide license every time the container is started
 
-The `BOOSTER_LICENSE` environment variable can be used to insert a license string into the Booster container. The container will then attempt to activate this license. If the license is bound to a particular MAC addres, this MAC address should be added to the container through either the `--mac-address` option of Docker, or by setting the `BOOSTER_MACADDRESS` environment variable of the container.
+The license can be provided to the container with either the command line option `-l`, or with the environment variable `BOOSTER_LICENSE`.
 
-Once the container has initialised a virtual network interface and/or attempted to activate a license key, it will continue to run normally.
+The container will attempt to activate the license. If the license is bound to a particular MAC address, this MAC address should be added to the container through either the Docker  `--mac-address`, or by setting the `BOOSTER_MACADDRESS` environment variable of the container.
 
 ### Mount license key
 

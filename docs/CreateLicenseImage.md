@@ -46,7 +46,7 @@ source .env
 docker run \
   --mac-address=${MAC_ADDRESS} \
   --rm -v $PWD:/usr/local/PitchBooster/jre/.systemPrefs/se/pitch/booster/config \
-  ${REPOSITORY}pitch-booster:${PITCH_BOOSTER_VERSION} -l ${LICENSE}
+  ${REPOSITORY}pitch-booster:${PITCH_BOOSTER_VERSION} -l ${LICENSE} -x
 ```
 
 After running this command a file `prefs.xml` should be created in the current working directory.
@@ -103,7 +103,7 @@ And lastly build the license container image with the following command:
 docker-compose build
 ````
 
-## Updating the license data
+## Update the license data
 
 In case the license container is updated with new license data, the license volume needs to be removed from the host filesystem so that the new data can be copied to the host filesystem. To remove the license volume from the host filesystem, make sure that no container that mounts the volume exists (either running or stopped). You can verify this with the command `docker ps -a`. If no container mounts the data volume anymore, then use the command `docker volume prune` to remove the license volume.
 
