@@ -56,6 +56,7 @@ OPTIND=1         # Reset in case getopts has been used previously in the shell.
 while getopts "m:l:xv" opt; do
     case "$opt" in
 	l)	BOOSTER_LICENSE=$OPTARG
+	    license=$OPTARG
 		;;
 	m)	BOOSTER_MACADDRESS=$OPTARG
 		;;
@@ -79,6 +80,11 @@ fi
 if [ -n "$BOOSTER_LICENSE" ]; then
 	echo "Booster: Run license activator with $BOOSTER_LICENSE"
 	echo $BOOSTER_LICENSE | /usr/local/PitchBooster/BoosterLicenseActivator
+
+	if [ -n "$license" ]; then
+		echo "Booster: exit after license install"
+		exit
+	fi
 fi
 
 if [ -z "${ISCHILD}" ] || [ "${ISCHILD}" = "0" ]; then
