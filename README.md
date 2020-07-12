@@ -24,7 +24,7 @@ For the instructions to build a skeleton or a complete Pitch Booster container i
 | Option | Description                                                  |
 | ------ | ------------------------------------------------------------ |
 | `-m`   | Create a virtual network interface with the given MAC address. Requires that the container has `NET_ADMIN` capability. Overrides the `BOOSTER_MACADDRESS` environment variable. |
-| `-l`   | Run license activator with the given key. Overrides `BOOSTER_LICENSE` environment variable. |
+| `-l`   | Run license activator with the given key and exit. Overrides `BOOSTER_LICENSE` environment variable. |
 | `-v`   | Provide verbose information.                                 |
 | `-x`   | Exit after initialization, but before running the Booster. Overrides the `BOOSTER_EXIT` environment variable. |
 
