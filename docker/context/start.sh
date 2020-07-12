@@ -55,7 +55,7 @@ OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
 while getopts "m:l:xv" opt; do
     case "$opt" in
-	l)	license=$OPTARG
+	l)	BOOSTER_LICENSE=$OPTARG
 		;;
 	m)	BOOSTER_MACADDRESS=$OPTARG
 		;;
@@ -71,19 +71,13 @@ shift $((OPTIND-1))
 [ "$1" = "--" ] && shift
 
 if [ -n "$BOOSTER_MACADDRESS" ]; then
-	echo "BOOSTER: Set MAC address to $BOOSTER_MACADDRESS"
+	echo "Booster: Set MAC address to $BOOSTER_MACADDRESS"
 	ip link add link eth0 address $BOOSTER_MACADDRESS eth0.1 type macvlan
 	ip link set eth0.1 up
 fi
 
-if [ "$license" != "" ]; then
-	echo "Booster: run license activator with '$license'"
-	echo $license | /usr/local/PitchBooster/BoosterLicenseActivator
-	exit
-fi
-
 if [ -n "$BOOSTER_LICENSE" ]; then
-	echo "BOOSTER: Run license activator with $BOOSTER_LICENSE"
+	echo "Booster: Run license activator with $BOOSTER_LICENSE"
 	echo $BOOSTER_LICENSE | /usr/local/PitchBooster/BoosterLicenseActivator
 fi
 
