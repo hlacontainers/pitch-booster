@@ -17,7 +17,10 @@ For the instructions to build a skeleton or a complete Pitch Booster container i
 
 `pitch-booster:<version> [-m <MAC address>] [-l <license key>] [-v] [-x]`
 
-<style>table th:nth-of-type(1) { width: 10%; }</style>
+<style
+  type="text/css">
+table th:nth-of-type(1) { width: 10%; }
+</style>
 
 
 ## Container options
